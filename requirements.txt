@@ -1,0 +1,4 @@
+pyTelegramBotAPI==4.1.0
+python-binance==1.0.15
+APScheduler==3.8.1
+requests==2.27.1
