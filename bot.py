@@ -4,11 +4,11 @@ import datetime
 from binance.client import Client
 from apscheduler.schedulers.background import BlockingScheduler
 
-bot_api = "TELEGRAM_BOT_API"
-binance_api = 'BINANCE_API'
-binance_secret = 'BINANCE_SECRET'
+bot_api = "5045664973:AAGMOIST5Zpw6ptSSomtitsrySd39KoW6vw"
+binance_api = '5S21iQZF8UT2mzFINpW8xkXIIInpZbGQqjWvbdXscd45ILsJcTVX6qTTn8JL8ROG'
+binance_secret = 'oUxsQkAQns5idR5cEjYAs8VyEMTLafFJQbMAQ0DDvYqCbAY7jE72ZMDcjR98p0oJ'
 gas_api = 'https://ethgasstation.info/json/ethgasAPI.json'
-notification_time = '00:00'
+notifications_time = []
 
 bot = telebot.TeleBot(bot_api)
 client = Client(binance_api, binance_secret)
@@ -32,21 +32,30 @@ def send_notification(id):
 	bot.send_message(id, text=res)
 
 def get_time(message):
-	global notification_time
-	notification_time = message.text
-	bot.send_message(message.from_user.id, text='Notification time is set. You can start notifications by running the command [/run]')
+	global notifications_time
+	notifications_time.append(message.text)
+	bot.send_message(message.from_user.id, text='Notification time is set. Add more notifications or run added by running the command [/run]')
 
 @bot.message_handler(commands=['start'])
 def process_notification_time(message):
+	bot.send_message(message.from_user.id, text='Welcome to crypto notifications bot. Press [/add] to add new notification time.')
+
+@bot.message_handler(commands=['add'])
+def add_notification(message):
 	send = bot.send_message(message.from_user.id, text='Enter notification time(%H:%M):')
 	bot.register_next_step_handler(send, get_time)
-	
+
+@bot.message_handler(commands=['stop'])
+def stop_notifications(message):
+	pass
+	# TODO: Add method to remove the jobs
+
 @bot.message_handler(commands=['run'])
-def run_notifications(message):
-	time = notification_time.split(':')
+def run_notification(message):
 	bot.send_message(message.from_user.id, text='Notifications started.')
-	print(time)
-	sched.add_job(send_notification, 'cron', args=(message.from_user.id,), hour=time[0], minute=time[1])
+	for i in notifications_time:
+		time = i.split(':')
+		sched.add_job(send_notification, 'cron', args=(message.from_user.id,), hour=time[0], minute=time[1])
 	sched.start()
 
 bot.polling(none_stop=True, interval=0)
