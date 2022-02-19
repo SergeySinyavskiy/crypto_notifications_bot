@@ -41,7 +41,7 @@ def process_notification_time(message):
 	send = bot.send_message(message.from_user.id, text='Enter notification time(%H:%M):')
 	bot.register_next_step_handler(send, get_time)
 	
-@bot.message_handler(commands=['run_notifications'])
+@bot.message_handler(commands=['run'])
 def run_notifications(message):
 	time = notification_time.split(':')
 	bot.send_message(message.from_user.id, text='Notifications started.')
