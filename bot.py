@@ -4,9 +4,9 @@ import datetime
 from binance.client import Client
 from apscheduler.schedulers.background import BlockingScheduler
 
-bot_api = "5045664973:AAGMOIST5Zpw6ptSSomtitsrySd39KoW6vw"
-binance_api = '5S21iQZF8UT2mzFINpW8xkXIIInpZbGQqjWvbdXscd45ILsJcTVX6qTTn8JL8ROG'
-binance_secret = 'oUxsQkAQns5idR5cEjYAs8VyEMTLafFJQbMAQ0DDvYqCbAY7jE72ZMDcjR98p0oJ'
+bot_api = "TELEGRAM_BOT_API"
+binance_api = 'BINANCE_API'
+binance_secret = 'BINANCE_SECRET'
 gas_api = 'https://ethgasstation.info/json/ethgasAPI.json'
 notifications_time = []
 
