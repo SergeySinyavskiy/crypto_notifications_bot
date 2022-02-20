@@ -12,7 +12,7 @@ notifications_time = []
 
 bot = telebot.TeleBot(bot_api)
 client = Client(binance_api, binance_secret)
-sched = BlockingScheduler()
+sched = BlockingScheduler(timezone="Europe/Kiev")
 
 def get_tickers():
 	return {i: float(client.get_symbol_ticker(symbol=i+"USDT")["price"]) for i in ['BTC', 'ETH', 'BNB']}
@@ -34,7 +34,7 @@ def send_notification(id):
 def get_time(message):
 	global notifications_time
 	notifications_time.append(message.text)
-	bot.send_message(message.from_user.id, text='Notification time is set. Add more notifications or run added by running the command [/run]')
+	bot.send_message(message.from_user.id, text='Notification added. Add more notifications or run having by running the command [/run]')
 
 @bot.message_handler(commands=['start'])
 def process_notification_time(message):
